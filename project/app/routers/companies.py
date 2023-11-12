@@ -1,8 +1,8 @@
 from typing import Annotated, List
 from fastapi import APIRouter, Depends, Path, Query
-from app.internals.utils import *
+from app.internals.user_utils import *
 from app.db import get_session
-from app.models import CompanyResponse, IposResponse, AcquisitionResponse, AcquiredResponse
+from app.models.companies import CompanyResponse, IposResponse, AcquisitionResponse, AcquiredResponse
 from sqlmodel import Session
 
 

@@ -1,5 +1,5 @@
 from sqlmodel import select
-from app.models import Company, Acquisitions
+from app.models.companies import Company, Acquisitions
 from sqlmodel import Session
 from fastapi import HTTPException
 

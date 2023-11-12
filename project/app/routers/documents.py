@@ -1,6 +1,6 @@
 from typing import Annotated, List
 from fastapi import APIRouter, Depends, Form, Path, Query
-from app.internals.utils import *
+from app.internals.company_utils import *
 from sqlmodel import Session
 from fastapi import APIRouter, File, UploadFile
 

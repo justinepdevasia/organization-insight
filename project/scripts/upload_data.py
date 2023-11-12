@@ -5,7 +5,8 @@ from sqlmodel import create_engine,Session
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(project_root)
-from app.models import Acquisitions, Company, Ipos
+from app.models.companies import Acquisitions, Company, Ipos
+from app.models.users import Users
 
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
@@ -15,6 +16,7 @@ engine = create_engine(DATABASE_URL, echo=True)
 company_csv = os.path.join(project_root, 'scripts', 'objects.csv')
 acquisition_csv = os.path.join(project_root, 'scripts', 'filtered_acquisitions.csv')
 ipo_csv = os.path.join(project_root, 'scripts', 'filtered_ipos.csv')
+user_csv = os.path.join(project_root, 'scripts', 'users.csv')
 
 def read_csv_file_generator(file_path):
     try:
@@ -54,6 +56,13 @@ def create_ipos():
             session.add(ipo)
         session.commit()
 
+def create_users():
+    with Session(engine) as session:
+        for row in read_csv_file_generator(user_csv):
+            users = Users(**row)
+            session.add(users)
+        session.commit()
+
 if __name__ == "__main__":
     if is_table_empty(Company) and is_table_empty(Acquisitions) and is_table_empty(Ipos):
         print("Tables are empty. Uploading data.")
@@ -61,5 +70,7 @@ if __name__ == "__main__":
         create_companies()
         create_acquisitions()
         create_ipos()
+    if is_table_empty(Users):
+        create_users()
     else:
         print("Tables are not empty. Skipping data upload.")
